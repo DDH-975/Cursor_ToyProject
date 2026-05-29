@@ -9,6 +9,8 @@ import java.util.UUID
 
 class GpaViewModel : ViewModel() {
 
+    private val coursesCache = mutableListOf<GpaCourseItem>()
+
     private val _courses = MutableLiveData<List<GpaCourseItem>>(emptyList())
     val courses: LiveData<List<GpaCourseItem>> = _courses
 
@@ -19,25 +21,42 @@ class GpaViewModel : ViewModel() {
     val gpaError: LiveData<Boolean> = _gpaError
 
     fun addCourse() {
-        val newCourse = GpaCourseItem(id = UUID.randomUUID().toString())
-        _courses.value = _courses.value.orEmpty() + newCourse
+        coursesCache.add(GpaCourseItem(id = UUID.randomUUID().toString()))
+        publishCourses()
     }
 
-    fun updateCourse(updated: GpaCourseItem) {
-        _courses.value = _courses.value.orEmpty().map { course ->
-            if (course.id == updated.id) updated else course
-        }
+    /** 학점/성적 변경 시에만 UI 리스트를 갱신한다. */
+    fun updateCourseSelection(updated: GpaCourseItem) {
+        val index = coursesCache.indexOfFirst { it.id == updated.id }
+        if (index == -1) return
+
+        coursesCache[index] = coursesCache[index].copy(
+            creditIndex = updated.creditIndex,
+            gradeIndex = updated.gradeIndex,
+            subjectName = updated.subjectName
+        )
+        publishCourses()
+    }
+
+    /** 과목명 입력 시 캐시만 갱신하고 RecyclerView 재바인딩은 하지 않는다. */
+    fun updateCourseSubjectName(courseId: String, subjectName: String) {
+        val index = coursesCache.indexOfFirst { it.id == courseId }
+        if (index == -1) return
+
+        val current = coursesCache[index]
+        if (current.subjectName == subjectName) return
+
+        coursesCache[index] = current.copy(subjectName = subjectName)
     }
 
     fun calculateGpa() {
-        val courseList = _courses.value.orEmpty()
-        if (courseList.isEmpty()) {
+        if (coursesCache.isEmpty()) {
             _gpaResult.value = null
             _gpaError.value = true
             return
         }
 
-        val gpa = GpaCalculator.calculate(courseList)
+        val gpa = GpaCalculator.calculate(coursesCache)
         if (gpa == null) {
             _gpaResult.value = null
             _gpaError.value = true
@@ -45,5 +64,9 @@ class GpaViewModel : ViewModel() {
             _gpaResult.value = gpa
             _gpaError.value = false
         }
+    }
+
+    private fun publishCourses() {
+        _courses.value = coursesCache.toList()
     }
 }

@@ -15,7 +15,8 @@ import com.example.cursor.model.GpaCourseItem
 class GpaCourseAdapter(
     private val creditOptions: Array<String>,
     private val gradeOptions: Array<String>,
-    private val onCourseChanged: (GpaCourseItem) -> Unit
+    private val onSelectionChanged: (GpaCourseItem) -> Unit,
+    private val onSubjectNameChanged: (courseId: String, subjectName: String) -> Unit
 ) : ListAdapter<GpaCourseItem, GpaCourseAdapter.CourseViewHolder>(CourseDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
@@ -24,47 +25,43 @@ class GpaCourseAdapter(
             parent,
             false
         )
-        return CourseViewHolder(binding)
+        return CourseViewHolder(
+            binding,
+            creditOptions,
+            gradeOptions,
+            onSelectionChanged,
+            onSubjectNameChanged
+        )
     }
 
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    inner class CourseViewHolder(
-        private val binding: ItemGpaCourseBinding
+    class CourseViewHolder(
+        private val binding: ItemGpaCourseBinding,
+        private val creditOptions: Array<String>,
+        private val gradeOptions: Array<String>,
+        private val onSelectionChanged: (GpaCourseItem) -> Unit,
+        private val onSubjectNameChanged: (courseId: String, subjectName: String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private var boundItem: GpaCourseItem? = null
-        private var subjectWatcher: TextWatcher? = null
+        private var isBinding = false
 
-        fun bind(item: GpaCourseItem) {
-            boundItem = item
-            clearListeners()
-
-            binding.etSubjectName.setText(item.subjectName)
-            setupSpinners(item)
-            setupSubjectWatcher()
-        }
-
-        private fun setupSpinners(item: GpaCourseItem) {
+        init {
             val context = binding.root.context
 
-            val creditAdapter = ArrayAdapter(
+            binding.spinnerCredit.adapter = ArrayAdapter(
                 context,
                 android.R.layout.simple_spinner_dropdown_item,
                 creditOptions
             )
-            binding.spinnerCredit.adapter = creditAdapter
-            binding.spinnerCredit.setSelection(item.creditIndex.coerceIn(0, creditOptions.lastIndex))
-
-            val gradeAdapter = ArrayAdapter(
+            binding.spinnerGrade.adapter = ArrayAdapter(
                 context,
                 android.R.layout.simple_spinner_dropdown_item,
                 gradeOptions
             )
-            binding.spinnerGrade.adapter = gradeAdapter
-            binding.spinnerGrade.setSelection(item.gradeIndex.coerceIn(0, gradeOptions.lastIndex))
 
             binding.spinnerCredit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -73,7 +70,8 @@ class GpaCourseAdapter(
                     position: Int,
                     id: Long
                 ) {
-                    updateItem { it.copy(creditIndex = position) }
+                    if (isBinding) return
+                    notifySelectionChange { it.copy(creditIndex = position) }
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) = Unit
@@ -86,38 +84,62 @@ class GpaCourseAdapter(
                     position: Int,
                     id: Long
                 ) {
-                    updateItem { it.copy(gradeIndex = position) }
+                    if (isBinding) return
+                    notifySelectionChange { it.copy(gradeIndex = position) }
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) = Unit
             }
-        }
 
-        private fun setupSubjectWatcher() {
-            subjectWatcher = object : TextWatcher {
+            binding.etSubjectName.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
                 override fun afterTextChanged(s: Editable?) {
-                    updateItem { it.copy(subjectName = s?.toString().orEmpty()) }
+                    if (isBinding) return
+                    val current = boundItem ?: return
+                    val subjectName = s?.toString().orEmpty()
+                    boundItem = current.copy(subjectName = subjectName)
+                    onSubjectNameChanged(current.id, subjectName)
                 }
-            }
-            binding.etSubjectName.addTextChangedListener(subjectWatcher)
+            })
         }
 
-        private fun updateItem(transform: (GpaCourseItem) -> GpaCourseItem) {
+        fun bind(item: GpaCourseItem) {
+            isBinding = true
+            boundItem = item
+
+            val editText = binding.etSubjectName
+            val currentText = editText.text?.toString().orEmpty()
+            if (currentText != item.subjectName) {
+                val selection = editText.selectionStart.coerceAtLeast(0)
+                editText.setText(item.subjectName)
+                val newSelection = selection.coerceIn(0, item.subjectName.length)
+                editText.setSelection(newSelection)
+            }
+
+            val creditIndex = item.creditIndex.coerceIn(0, creditOptions.lastIndex)
+            if (binding.spinnerCredit.selectedItemPosition != creditIndex) {
+                binding.spinnerCredit.setSelection(creditIndex, false)
+            }
+
+            val gradeIndex = item.gradeIndex.coerceIn(0, gradeOptions.lastIndex)
+            if (binding.spinnerGrade.selectedItemPosition != gradeIndex) {
+                binding.spinnerGrade.setSelection(gradeIndex, false)
+            }
+
+            isBinding = false
+        }
+
+        private fun notifySelectionChange(transform: (GpaCourseItem) -> GpaCourseItem) {
             val current = boundItem ?: return
             val updated = transform(current)
-            if (updated != current) {
-                boundItem = updated
-                onCourseChanged(updated)
+            if (updated.creditIndex == current.creditIndex &&
+                updated.gradeIndex == current.gradeIndex
+            ) {
+                return
             }
-        }
-
-        private fun clearListeners() {
-            subjectWatcher?.let { binding.etSubjectName.removeTextChangedListener(it) }
-            subjectWatcher = null
-            binding.spinnerCredit.onItemSelectedListener = null
-            binding.spinnerGrade.onItemSelectedListener = null
+            boundItem = updated
+            onSelectionChanged(updated)
         }
     }
 
@@ -126,6 +148,7 @@ class GpaCourseAdapter(
             oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: GpaCourseItem, newItem: GpaCourseItem): Boolean =
-            oldItem == newItem
+            oldItem.creditIndex == newItem.creditIndex &&
+                oldItem.gradeIndex == newItem.gradeIndex
     }
 }
