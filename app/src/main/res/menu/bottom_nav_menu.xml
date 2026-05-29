@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_calculator"
+        android:icon="@drawable/ic_nav_calculator"
+        android:title="@string/nav_calculator" />
+    <item
+        android:id="@+id/nav_gpa"
+        android:icon="@drawable/ic_nav_gpa"
+        android:title="@string/nav_gpa" />
+    <item
+        android:id="@+id/nav_bmi"
+        android:icon="@drawable/ic_nav_bmi"
+        android:title="@string/nav_bmi" />
+    <item
+        android:id="@+id/nav_dutch"
+        android:icon="@drawable/ic_nav_dutch"
+        android:title="@string/nav_dutch" />
+</menu>
