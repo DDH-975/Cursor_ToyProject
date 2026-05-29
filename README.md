@@ -1,4 +1,4 @@
-# GeminiAgent ToyProject
+# Cursor ToyProject
 ## 통합 계산기
 ### 기능
 - 일반 사칙연산 계산기
