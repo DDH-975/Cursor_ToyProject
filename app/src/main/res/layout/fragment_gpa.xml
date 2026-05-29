@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/calculator_background"
+    android:padding="@dimen/calculator_screen_padding">
+
+    <TextView
+        android:id="@+id/tvGpaTitle"
+        style="@style/CalculatorScreenTitle"
+        android:layout_marginBottom="12dp"
+        android:text="@string/nav_gpa"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCourses"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@id/btnAddCourse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvGpaTitle" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnAddCourse"
+        style="@style/CalculatorButton.Secondary"
+        android:layout_marginBottom="8dp"
+        android:text="@string/gpa_add_course"
+        app:layout_constraintBottom_toTopOf="@id/tvGpaResult"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvGpaResult"
+        style="@style/CalculatorResultText"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:text="@string/gpa_result_empty"
+        android:textColor="@color/calculator_result_text"
+        app:layout_constraintBottom_toTopOf="@id/btnCalculateGpa"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCalculateGpa"
+        style="@style/CalculatorButton.Primary"
+        android:text="@string/gpa_calculate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
