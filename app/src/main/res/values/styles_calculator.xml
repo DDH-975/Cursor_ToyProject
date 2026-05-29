@@ -26,6 +26,26 @@
         <item name="android:textColor">@color/calculator_text_operator</item>
     </style>
 
+    <style name="CalculatorButton.RowAction" parent="CalculatorButton.Operator">
+        <item name="android:layout_width">@dimen/gpa_row_control_height</item>
+        <item name="android:layout_height">@dimen/gpa_row_control_height</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:minWidth">@dimen/gpa_row_control_height</item>
+        <item name="android:minHeight">@dimen/gpa_row_control_height</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
+    <style name="CalculatorButton.RowActionSecondary" parent="CalculatorButton.Number">
+        <item name="android:layout_width">@dimen/gpa_row_control_height</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:minWidth">@dimen/gpa_row_control_height</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
     <style name="CalculatorButton.Primary" parent="CalculatorButton.Operator">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

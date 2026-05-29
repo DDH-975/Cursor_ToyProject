@@ -21,6 +21,7 @@
     <string name="gpa_result_format">평균 평점: %1$.2f</string>
     <string name="gpa_result_empty">과목을 추가한 뒤 평균 평점을 계산해 주세요.</string>
     <string name="gpa_error_no_courses">계산할 과목이 없습니다.</string>
+    <string name="gpa_delete_course">과목 삭제</string>
 
     <!-- BMI -->
     <string name="bmi_height_hint">키 (cm)</string>

@@ -13,6 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="8dp">
@@ -21,8 +22,9 @@
             style="@style/CalculatorTextInput"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:layout_weight="1.2"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/calculator_button_margin"
+            android:layout_weight="1"
             android:hint="@string/gpa_subject_hint">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -37,8 +39,9 @@
         <Spinner
             android:id="@+id/spinnerCredit"
             android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginHorizontal="4dp"
+            android:layout_height="@dimen/gpa_row_control_height"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/calculator_button_margin"
             android:layout_weight="0.8"
             android:background="@drawable/bg_calculator_button_number"
             android:padding="4dp" />
@@ -46,10 +49,20 @@
         <Spinner
             android:id="@+id/spinnerGrade"
             android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="0.8"
+            android:layout_height="@dimen/gpa_row_control_height"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/calculator_button_margin"
+            android:layout_weight="0.75"
             android:background="@drawable/bg_calculator_button_number"
             android:padding="4dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDeleteCourse"
+            style="@style/CalculatorButton.RowAction"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/gpa_delete_course"
+            android:text="×"
+            android:textSize="22sp" />
 
     </LinearLayout>
 
