@@ -1,3 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Cursor</string>
+    <string name="app_name">통합 계산기</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_calculator">계산기</string>
+    <string name="nav_gpa">학점</string>
+    <string name="nav_bmi">BMI</string>
+    <string name="nav_dutch">더치페이</string>
+
+    <!-- Calculator -->
+    <string name="calculator_backspace">⌫</string>
+    <string name="calculator_clear">C</string>
+    <string name="calculator_equals">=</string>
+    <string name="calculator_default_result">0</string>
+
+    <!-- GPA -->
+    <string name="gpa_add_course">과목 추가</string>
+    <string name="gpa_calculate">평균 평점(GPA) 계산하기</string>
+    <string name="gpa_subject_hint">과목명</string>
+    <string name="gpa_result_format">평균 평점: %1$.2f</string>
+    <string name="gpa_result_empty">과목을 추가한 뒤 평균 평점을 계산해 주세요.</string>
+    <string name="gpa_error_no_courses">계산할 과목이 없습니다.</string>
+
+    <!-- BMI -->
+    <string name="bmi_height_hint">키 (cm)</string>
+    <string name="bmi_weight_hint">몸무게 (kg)</string>
+    <string name="bmi_calculate">계산하기</string>
+    <string name="bmi_result_format">BMI: %1$.1f</string>
+    <string name="bmi_status_underweight">저체중</string>
+    <string name="bmi_status_normal">정상</string>
+    <string name="bmi_status_overweight">과체중</string>
+    <string name="bmi_status_obese">비만</string>
+    <string name="bmi_error_invalid_input">키와 몸무게를 올바르게 입력해 주세요.</string>
+
+    <!-- Dutch pay -->
+    <string name="dutch_total_hint">총 금액 (원)</string>
+    <string name="dutch_people_hint">인원수</string>
+    <string name="dutch_calculate">계산하기</string>
+    <string name="dutch_per_person_label">1인당 내야 할 금액</string>
+    <string name="dutch_per_person_format">%1$,d원</string>
+    <string name="dutch_decrease">인원 감소</string>
+    <string name="dutch_increase">인원 증가</string>
+    <string name="dutch_error_invalid">총 금액과 인원수를 올바르게 입력해 주세요.</string>
 </resources>

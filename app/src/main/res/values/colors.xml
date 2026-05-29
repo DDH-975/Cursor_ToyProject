@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="calculator_background">#FFFFFF</color>
+    <color name="calculator_display_text">#212121</color>
+    <color name="calculator_result_text">#757575</color>
+    <color name="calculator_button_number">#E0E0E0</color>
+    <color name="calculator_button_operator">#0288D1</color>
+    <color name="calculator_text_number">#000000</color>
+    <color name="calculator_text_operator">#FFFFFF</color>
+    <color name="calculator_input_stroke">#BDBDBD</color>
+    <color name="calculator_card_background">#F5F5F5</color>
+    <color name="bottom_nav_selected">#0288D1</color>
+    <color name="bottom_nav_unselected">#757575</color>
+    <color name="bmi_underweight">#1976D2</color>
+    <color name="bmi_normal">#2E7D32</color>
+    <color name="bmi_overweight">#F57C00</color>
+    <color name="bmi_obese">#D32F2F</color>
+    <color name="error_text">#D32F2F</color>
 </resources>
