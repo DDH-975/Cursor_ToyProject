@@ -16,7 +16,8 @@ class GpaCourseAdapter(
     private val creditOptions: Array<String>,
     private val gradeOptions: Array<String>,
     private val onSelectionChanged: (GpaCourseItem) -> Unit,
-    private val onSubjectNameChanged: (courseId: String, subjectName: String) -> Unit
+    private val onSubjectNameChanged: (courseId: String, subjectName: String) -> Unit,
+    private val onCourseDeleted: (courseId: String) -> Unit
 ) : ListAdapter<GpaCourseItem, GpaCourseAdapter.CourseViewHolder>(CourseDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
@@ -30,7 +31,8 @@ class GpaCourseAdapter(
             creditOptions,
             gradeOptions,
             onSelectionChanged,
-            onSubjectNameChanged
+            onSubjectNameChanged,
+            onCourseDeleted
         )
     }
 
@@ -43,7 +45,8 @@ class GpaCourseAdapter(
         private val creditOptions: Array<String>,
         private val gradeOptions: Array<String>,
         private val onSelectionChanged: (GpaCourseItem) -> Unit,
-        private val onSubjectNameChanged: (courseId: String, subjectName: String) -> Unit
+        private val onSubjectNameChanged: (courseId: String, subjectName: String) -> Unit,
+        private val onCourseDeleted: (courseId: String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private var boundItem: GpaCourseItem? = null
@@ -89,6 +92,10 @@ class GpaCourseAdapter(
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+            }
+
+            binding.btnDeleteCourse.setOnClickListener {
+                boundItem?.id?.let(onCourseDeleted)
             }
 
             binding.etSubjectName.addTextChangedListener(object : TextWatcher {

@@ -40,7 +40,8 @@ class GpaFragment : Fragment() {
             creditOptions = resources.getStringArray(R.array.gpa_credits),
             gradeOptions = resources.getStringArray(R.array.gpa_grades),
             onSelectionChanged = viewModel::updateCourseSelection,
-            onSubjectNameChanged = viewModel::updateCourseSubjectName
+            onSubjectNameChanged = viewModel::updateCourseSubjectName,
+            onCourseDeleted = viewModel::removeCourse
         )
         binding.rvCourses.apply {
             layoutManager = LinearLayoutManager(requireContext())

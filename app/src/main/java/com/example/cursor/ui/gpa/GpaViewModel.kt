@@ -25,6 +25,13 @@ class GpaViewModel : ViewModel() {
         publishCourses()
     }
 
+    fun removeCourse(courseId: String) {
+        val removed = coursesCache.removeAll { it.id == courseId }
+        if (removed) {
+            publishCourses()
+        }
+    }
+
     /** 학점/성적 변경 시에만 UI 리스트를 갱신한다. */
     fun updateCourseSelection(updated: GpaCourseItem) {
         val index = coursesCache.indexOfFirst { it.id == updated.id }
